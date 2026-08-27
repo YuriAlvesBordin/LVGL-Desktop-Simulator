@@ -50,7 +50,7 @@ LVGL owns widgets, layout, styles, and pixels. GLFW owns the native window and r
 ## Start in seconds
 
 ```text
-git clone --recurse-submodules <repository-url>
+git clone --recurse-submodules https://github.com/YuriAlvesBordin/LVGL-Desktop-Simulator
 cd lvgl-raylib
 cmake --preset debug
 cmake --build --preset debug-build

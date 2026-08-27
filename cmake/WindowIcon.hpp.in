@@ -1,0 +1,13 @@
+#pragma once
+
+#include <array>
+#include <cstddef>
+#include <cstdint>
+
+namespace lvgl_integration {
+
+inline constexpr std::array<std::uint8_t, @LVGL_GLFW_ICON_SIZE@> window_icon_data{
+    @LVGL_GLFW_ICON_BYTES@
+};
+
+}

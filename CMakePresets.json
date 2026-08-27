@@ -1,0 +1,49 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug-build",
+      "configurePreset": "debug",
+      "configuration": "Debug",
+      "jobs": 2
+    },
+    {
+      "name": "release-build",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "jobs": 2
+    },
+    {
+      "name": "live-preview",
+      "configurePreset": "debug",
+      "configuration": "Debug",
+      "targets": ["live-preview"],
+      "jobs": 2
+    }
+  ]
+}

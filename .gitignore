@@ -12,3 +12,4 @@ core.*
 
 compile_commands.json
 dist/
+.zcode/

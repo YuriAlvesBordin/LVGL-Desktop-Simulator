@@ -1,0 +1,14 @@
+build/
+build-*/
+cmake-build-*/
+
+*.log
+core
+core.*
+
+.vscode/
+.idea/
+.DS_Store
+
+compile_commands.json
+dist/

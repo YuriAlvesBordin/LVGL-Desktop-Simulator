@@ -42,6 +42,8 @@ uniform sampler2D u_texture;
 uniform int u_screen_shape;
 uniform vec2 u_mask_size;
 uniform float u_corner_radius;
+uniform vec2 u_tex_origin;
+uniform vec2 u_tex_scale;
 
 float rounded_box_distance(vec2 point, vec2 half_size, float radius)
 {
@@ -52,8 +54,9 @@ float rounded_box_distance(vec2 point, vec2 half_size, float radius)
 
 void main()
 {
-    vec4 color = texture(u_texture, v_texcoord);
-    vec2 point = v_texcoord * u_mask_size - u_mask_size * 0.5;
+    vec2 texcoord = u_tex_origin + v_texcoord * u_tex_scale;
+    vec4 color = texture(u_texture, texcoord);
+    vec2 point = texcoord * u_mask_size - u_mask_size * 0.5;
     float distance_to_edge = 0.0;
 
     if (u_screen_shape == 1) {
@@ -368,16 +371,29 @@ MousePosition Window::mouse_position(int content_width, int content_height) cons
 
     const float framebuffer_x = mouse_position_.x;
     const float framebuffer_y = mouse_position_.y;
-    const float content_scale_x = static_cast<float>(content_width) /
-                                  static_cast<float>(std::max(viewport_width, 1));
-    const float content_scale_y = static_cast<float>(content_height) /
-                                  static_cast<float>(std::max(viewport_height, 1));
-    result.x = std::clamp((framebuffer_x - static_cast<float>(viewport_x)) * content_scale_x,
-                          0.0F,
-                          static_cast<float>(content_width - 1));
-    result.y = std::clamp((framebuffer_y - static_cast<float>(viewport_y)) * content_scale_y,
-                          0.0F,
-                          static_cast<float>(content_height - 1));
+
+    if (presentation_mode_ == lvgl_integration::PresentationMode::FixedSize) {
+        const float content_origin_x = static_cast<float>((content_width - viewport_width) / 2);
+        const float content_origin_y = static_cast<float>((content_height - viewport_height) / 2);
+        result.x = std::clamp(content_origin_x + framebuffer_x - static_cast<float>(viewport_x),
+                              0.0F,
+                              static_cast<float>(content_width - 1));
+        result.y = std::clamp(content_origin_y + framebuffer_y - static_cast<float>(viewport_y),
+                              0.0F,
+                              static_cast<float>(content_height - 1));
+    }
+    else {
+        const float content_scale_x = static_cast<float>(content_width) /
+                                      static_cast<float>(std::max(viewport_width, 1));
+        const float content_scale_y = static_cast<float>(content_height) /
+                                      static_cast<float>(std::max(viewport_height, 1));
+        result.x = std::clamp((framebuffer_x - static_cast<float>(viewport_x)) * content_scale_x,
+                              0.0F,
+                              static_cast<float>(content_width - 1));
+        result.y = std::clamp((framebuffer_y - static_cast<float>(viewport_y)) * content_scale_y,
+                              0.0F,
+                              static_cast<float>(content_height - 1));
+    }
 
     const bool inside_viewport = framebuffer_x >= static_cast<float>(viewport_x) &&
                                  framebuffer_x < static_cast<float>(viewport_x + viewport_width) &&
@@ -565,6 +581,24 @@ void Window::present(TextureHandle texture, int content_width, int content_heigh
                 static_cast<float>(content_width),
                 static_cast<float>(content_height));
     glUniform1f(present_corner_radius_location_, static_cast<float>(corner_radius_));
+
+    float tex_origin_x = 0.0F;
+    float tex_origin_y = 0.0F;
+    float tex_scale_x = 1.0F;
+    float tex_scale_y = 1.0F;
+    if (presentation_mode_ == lvgl_integration::PresentationMode::FixedSize) {
+        const float content_width_f = static_cast<float>(content_width);
+        const float content_height_f = static_cast<float>(content_height);
+        tex_origin_x = static_cast<float>(std::max(content_width - viewport_width, 0)) * 0.5F /
+                       content_width_f;
+        tex_origin_y = static_cast<float>(std::max(content_height - viewport_height, 0)) * 0.5F /
+                       content_height_f;
+        tex_scale_x = static_cast<float>(viewport_width) / content_width_f;
+        tex_scale_y = static_cast<float>(viewport_height) / content_height_f;
+    }
+    glUniform2f(present_tex_origin_location_, tex_origin_x, tex_origin_y);
+    glUniform2f(present_tex_scale_location_, tex_scale_x, tex_scale_y);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -843,8 +877,19 @@ void Window::calculate_presentation_viewport(int content_width,
     viewport_width = std::max(render_width_, 1);
     viewport_height = std::max(render_height_, 1);
 
-    if (content_width <= 0 || content_height <= 0 ||
-        presentation_mode_ != lvgl_integration::PresentationMode::PreserveAspectRatio) {
+    if (content_width <= 0 || content_height <= 0) {
+        return;
+    }
+
+    if (presentation_mode_ == lvgl_integration::PresentationMode::FixedSize) {
+        viewport_width = std::clamp(content_width, 1, viewport_width);
+        viewport_height = std::clamp(content_height, 1, viewport_height);
+        viewport_x = (std::max(render_width_, 1) - viewport_width) / 2;
+        viewport_y = (std::max(render_height_, 1) - viewport_height) / 2;
+        return;
+    }
+
+    if (presentation_mode_ != lvgl_integration::PresentationMode::PreserveAspectRatio) {
         return;
     }
 
@@ -984,10 +1029,14 @@ bool Window::initialize_present_pipeline() noexcept
     present_screen_shape_location_ = glGetUniformLocation(present_program_, "u_screen_shape");
     present_mask_size_location_ = glGetUniformLocation(present_program_, "u_mask_size");
     present_corner_radius_location_ = glGetUniformLocation(present_program_, "u_corner_radius");
+    present_tex_origin_location_ = glGetUniformLocation(present_program_, "u_tex_origin");
+    present_tex_scale_location_ = glGetUniformLocation(present_program_, "u_tex_scale");
     return present_texture_location_ >= 0 &&
            present_screen_shape_location_ >= 0 &&
            present_mask_size_location_ >= 0 &&
-           present_corner_radius_location_ >= 0;
+           present_corner_radius_location_ >= 0 &&
+           present_tex_origin_location_ >= 0 &&
+           present_tex_scale_location_ >= 0;
 }
 
 void Window::destroy_present_pipeline() noexcept
@@ -1008,6 +1057,8 @@ void Window::destroy_present_pipeline() noexcept
     present_screen_shape_location_ = -1;
     present_mask_size_location_ = -1;
     present_corner_radius_location_ = -1;
+    present_tex_origin_location_ = -1;
+    present_tex_scale_location_ = -1;
 }
 
 }

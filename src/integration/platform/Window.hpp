@@ -151,6 +151,8 @@ private:
     int present_screen_shape_location_ = -1;
     int present_mask_size_location_ = -1;
     int present_corner_radius_location_ = -1;
+    int present_tex_origin_location_ = -1;
+    int present_tex_scale_location_ = -1;
 };
 
 }

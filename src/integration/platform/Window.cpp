@@ -461,6 +461,8 @@ TextureHandle Window::create_texture(int width,
 }
 
 void Window::update_texture(TextureHandle texture,
+                            int x,
+                            int y,
                             int width,
                             int height,
                             const void* pixels) const noexcept
@@ -473,8 +475,8 @@ void Window::update_texture(TextureHandle texture,
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexSubImage2D(GL_TEXTURE_2D,
                     0,
-                    0,
-                    0,
+                    x,
+                    y,
                     width,
                     height,
                     GL_RGB,
@@ -660,13 +662,47 @@ void Window::load_window_geometry() noexcept
     const int fields = std::fscanf(file, "%d %d %d %d", &position_x, &position_y, &width, &height);
     std::fclose(file);
 
-    if (fields == 4 && width > 0 && height > 0) {
+    if (fields == 4 && width > 0 && height > 0 &&
+        saved_geometry_visible(position_x, position_y, width, height)) {
         window_position_x_ = position_x;
         window_position_y_ = position_y;
         saved_window_width_ = width;
         saved_window_height_ = height;
         saved_window_position_loaded_ = true;
     }
+}
+
+bool Window::saved_geometry_visible(int position_x,
+                                    int position_y,
+                                    int width,
+                                    int height) const noexcept
+{
+    int monitor_count = 0;
+    GLFWmonitor** monitors = glfwGetMonitors(&monitor_count);
+    if (monitors == nullptr || monitor_count <= 0) {
+        return true;
+    }
+
+    for (int index = 0; index < monitor_count; ++index) {
+        int work_x = 0;
+        int work_y = 0;
+        int work_width = 0;
+        int work_height = 0;
+        glfwGetMonitorWorkarea(monitors[index], &work_x, &work_y, &work_width, &work_height);
+        if (work_width <= 0 || work_height <= 0) {
+            continue;
+        }
+
+        const bool intersects = position_x < work_x + work_width &&
+                                position_x + width > work_x &&
+                                position_y < work_y + work_height &&
+                                position_y + height > work_y;
+        if (intersects) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void Window::save_window_geometry() noexcept

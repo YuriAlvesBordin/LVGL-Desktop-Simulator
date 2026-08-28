@@ -19,10 +19,23 @@ if ! command -v cmake >/dev/null 2>&1; then
     echo "Error: cmake was not found in PATH." >&2
     exit 127
 fi
-if ! command -v sha256sum >/dev/null 2>&1; then
-    echo "Error: sha256sum was not found in PATH." >&2
+if command -v sha256sum >/dev/null 2>&1; then
+    SHA256_COMMAND=(sha256sum)
+elif command -v shasum >/dev/null 2>&1; then
+    SHA256_COMMAND=(shasum -a 256)
+else
+    echo "Error: sha256sum or shasum was not found in PATH." >&2
     exit 127
 fi
+
+case "$(uname -s)" in
+    Darwin | *BSD*)
+        STAT_COMMAND=(stat -f '%m %z %N')
+        ;;
+    *)
+        STAT_COMMAND=(stat -c '%Y %s %n')
+        ;;
+esac
 
 child_pid=""
 
@@ -55,17 +68,17 @@ watch_signature() {
              "${ROOT_DIR}/src/integration" \
              "${ROOT_DIR}/config" \
              "${ROOT_DIR}/cmake" \
-             -type f -printf '%T@ %s %p\n' 2>/dev/null | sort
+             -type f -exec "${STAT_COMMAND[@]}" {} + 2>/dev/null
         for file in \
             "${ROOT_DIR}/CMakeLists.txt" \
             "${ROOT_DIR}/CMakePresets.json" \
             "${ROOT_DIR}/src/app/CMakeLists.txt" \
             "${ROOT_DIR}/src/integration/CMakeLists.txt"; do
             if [[ -f "${file}" ]]; then
-                stat -c '%Y %s %n' "${file}"
+                "${STAT_COMMAND[@]}" "${file}" 2>/dev/null || true
             fi
         done
-    } | sha256sum | cut -d' ' -f1
+    } 2>/dev/null | sort | "${SHA256_COMMAND[@]}" | cut -d' ' -f1 || true
 }
 
 configure_and_build() {

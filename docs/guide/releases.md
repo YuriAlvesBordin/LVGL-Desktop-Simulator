@@ -26,7 +26,6 @@ Unix produces `.tar.gz`; Windows produces `.zip`. Each package has an adjacent S
 | `README.md` | Project overview |
 | `RELEASE.txt` | Version and runtime expectations |
 | `runtime-dependencies.txt` | Host dependency report |
-| `VALIDATION.md` | Validation summary |
 | `.desktop` launcher and icon asset | Linux branding, when an icon is configured |
 | `.ico` asset | Windows branding, when an icon is configured |
 

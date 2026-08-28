@@ -29,5 +29,3 @@ flowchart LR
 | Reference | [CMake and presets](reference/cmake.md) | How are targets and builds organized? |
 | Reference | [LVGL configuration](reference/lvgl-config.md) | How does `lv_conf.h` control the project? |
 | Troubleshooting | [Common issues](troubleshooting/common-issues.md) | How do I isolate failures? |
-
-The top-level [README](../README.md) is the project landing page. The top-level [validation report](../VALIDATION.md) records the checks performed against the repository.

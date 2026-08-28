@@ -83,4 +83,4 @@ If the process exits before creating a window, separate the problem into context
 
 When the cause is unclear, remove the selected build directory and configure again with the Debug preset. This resets generated CMake state while preserving the source and configuration files.
 
-The repository validation commands are collected in [First run](../guide/first-run.md) and [Validation report](../../VALIDATION.md).
+The repository validation commands are collected in [First run](../guide/first-run.md).

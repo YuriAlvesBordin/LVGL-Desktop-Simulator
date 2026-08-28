@@ -35,19 +35,13 @@ When a new screen needs project-specific behavior, keep the composition in the a
 
 The integration target is C++20 and uses RAII for GLFW and OpenGL resources. Integration changes should preserve the existing ownership model, the OpenGL 3.3 core-profile request, the RGB565 framebuffer contract, and the single-threaded LVGL loop.
 
-A backend change should be accompanied by a focused manual runtime check or an update to the validation report. A visual change should not be implemented by drawing widgets outside LVGL.
+A backend change should be accompanied by a focused manual runtime check. A visual change should not be implemented by drawing widgets outside LVGL.
 
 ## Configuration changes
 
 Configuration changes belong in the related header under `config/`. `config/lv_conf.h` controls LVGL features, `config/display_config.h` controls desktop presentation, and `config/project_config.h` controls project and dependency policy. Enabling a feature may increase build time, memory use, or the set of compiled official content units.
 
 After changing a configuration definition, use a clean build directory when diagnosing generated-state problems. The relationship between CMake and `lv_conf.h` is described in [LVGL configuration](../reference/lvgl-config.md).
-
-## Validation expectations
-
-A normal change should pass the Debug build. Changes to input, resize, rendering, context creation, or live preview should also be exercised through the visible desktop runtime when the relevant graphical session is available.
-
-The validation report should record changes that affect the desktop bridge, rendering contract, or release process.
 
 ## Documentation expectations
 

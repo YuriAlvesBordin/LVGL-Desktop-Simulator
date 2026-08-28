@@ -4,8 +4,8 @@ LVGL and GLFW are tracked as Git submodules. The parent repository pins the exac
 
 | Dependency | Path | Pinned release |
 |---|---|---|
-| LVGL | `external/lvgl` | `v9.5.0` |
-| GLFW | `external/glfw` | `3.4` |
+| LVGL | `external/lvgl` |
+| GLFW | `external/glfw` |
 
 ## Clone
 

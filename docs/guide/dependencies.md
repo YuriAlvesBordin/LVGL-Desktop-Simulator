@@ -12,7 +12,7 @@ LVGL and GLFW are tracked as Git submodules. The parent repository pins the exac
 Use one recursive clone for a complete checkout:
 
 ```text
-git clone --recurse-submodules <repository-url>
+git clone --recurse-submodules https://github.com/YuriAlvesBordin/LVGL-Desktop-Simulator
 ```
 
 If the repository was already cloned without its submodules, run the recovery command from the project root:

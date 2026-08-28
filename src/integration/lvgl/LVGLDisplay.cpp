@@ -171,7 +171,7 @@ void LVGLDisplay::flush(const lv_area_t* area, std::uint8_t* px_map) noexcept
         return;
     }
 
-    window_->update_texture(texture_, width_, height_, px_map);
+    window_->update_texture(texture_, area->x1, area->y1, area->x2 - area->x1 + 1, area->y2 - area->y1 + 1, px_map);
     lv_display_flush_ready(display_);
 }
 

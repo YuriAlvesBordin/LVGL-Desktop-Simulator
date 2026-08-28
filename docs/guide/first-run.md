@@ -10,7 +10,7 @@ cmake --build --preset debug-build
 ./build/debug/lvgl-glfw-app
 ```
 
-The application entry point is `src/app/Application.c`. The default call is `lv_demo_widgets()`.
+The application entry point is `src/app/Application.c`. The default call shows a centered button with the label "Live preview". To run the LVGL widgets demo, edit `src/app/Application.c` and uncomment `lv_demo_widgets()` while commenting out the button code.
 
 ## Display configuration
 

@@ -65,7 +65,7 @@ After updating an NVIDIA package, reboot before testing again. `glxinfo -B` main
 
 Check that the selected LVGL feature is enabled in `config/lv_conf.h`. Official examples and demos commonly use preprocessor guards, so a function can be declared or compiled conditionally based on `LV_USE_*` definitions.
 
-For `lv_demo_widgets()`, verify `LV_USE_DEMO_WIDGETS`, `LV_USE_FLEX`, `LV_USE_GRID`, the required widgets, and the fonts used by the demo. Reconfigure and rebuild after changing the configuration header.
+To run `lv_demo_widgets()`, edit `src/app/Application.c` to call `lv_demo_widgets()` (uncomment the line and comment out the button code), then verify `LV_USE_DEMO_WIDGETS`, `LV_USE_FLEX`, `LV_USE_GRID`, the required widgets, and the fonts used by the demo. Reconfigure and rebuild after changing the configuration header.
 
 ## Live preview does not rebuild
 

@@ -67,6 +67,8 @@ public:
                                                int height,
                                                const void* pixels) const noexcept;
     void update_texture(TextureHandle texture,
+                        int x,
+                        int y,
                         int width,
                         int height,
                         const void* pixels) const noexcept;
@@ -105,6 +107,10 @@ private:
     void load_window_icon() noexcept;
     void load_window_geometry() noexcept;
     void save_window_geometry() noexcept;
+    [[nodiscard]] bool saved_geometry_visible(int position_x,
+                                              int position_y,
+                                              int width,
+                                              int height) const noexcept;
     bool initialize_present_pipeline() noexcept;
     void destroy_present_pipeline() noexcept;
     void pace_frame() noexcept;

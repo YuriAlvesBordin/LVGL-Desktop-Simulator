@@ -79,3 +79,11 @@ For a circular screen, use a square LVGL canvas and preserve-aspect-ratio mode. 
 | [Architecture](docs/reference/architecture.md) | Understand application, LVGL, GLFW, and OpenGL boundaries |
 | [Releases](docs/guide/releases.md) | Build a standalone Linux or Windows release |
 | [Validation report](VALIDATION.md) | Review the current validation coverage |
+
+---
+
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=white)
+![CMake](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)
+![LVGL](https://img.shields.io/badge/LVGL-3B82F6?style=for-the-badge&logo=github&logoColor=white)
+![GLFW](https://img.shields.io/badge/GLFW-000000?style=for-the-badge&logo=opengl&logoColor=white)

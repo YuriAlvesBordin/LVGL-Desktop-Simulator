@@ -5,10 +5,7 @@
 A small hardware-free simulator for developing LVGL interfaces with the same C APIs used on an embedded target. The application layer stays in C11, while GLFW and OpenGL 3.3 provide the desktop window, input bridge, and presentation surface.
 
 ## Visual showcase
-
-> **Screenshot slot:** Add a representative desktop capture at `docs/assets/preview.png` and place it here as the main project image.
->
-> **GIF slot:** Add a live-preview recording at `docs/assets/live-preview.gif` and place it here to show the edit, rebuild, and relaunch loop.
+![Live preview demonstration](docs/gif/live_preview_demonstration.gif)
 
 
 ## The idea

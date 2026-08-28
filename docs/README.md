@@ -22,7 +22,6 @@ flowchart LR
 | Guide | [Installation](guide/installation.md) | What needs to be installed? |
 | Guide | [Git submodules](guide/dependencies.md) | How are LVGL and GLFW obtained and pinned? |
 | Guide | [First run](guide/first-run.md) | How do I build and launch the simulator? |
-| Guide | [Selecting LVGL content](guide/selecting-lvgl-content.md) | How do I switch examples and demos? |
 | Guide | [Releases](guide/releases.md) | How do I build and distribute the standalone executable? |
 | Development | [Live preview](development/live-preview.md) | How do I see changes automatically? |
 | Development | [Contributing and extending](development/contributing.md) | Where should a change live? |

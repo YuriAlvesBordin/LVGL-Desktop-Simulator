@@ -12,18 +12,6 @@ A small hardware-free simulator for developing LVGL interfaces with the same C A
 
 > **Edit an LVGL screen on your PC, see the result immediately, and move to hardware when the interface is ready.**
 
-| What it provides | Direct answer |
-|---|---|
-| UI renderer | LVGL 9.5 software renderer |
-| Desktop window | GLFW 3.4 |
-| Presentation | OpenGL 3.3 core profile |
-| Application code | C11 in `src/app/Application.c` |
-| Desktop integration | C++20 in `src/integration/` and `src/main.cpp` |
-| Official content | LVGL examples and demos |
-| Live preview | Rebuild and relaunch on source changes |
-| Platform scripts | Bash on Unix and `.bat` on Windows |
-| Screen shapes | Rectangle, rounded corners, and circle |
-
 ## Architecture
 
 ```mermaid
@@ -48,10 +36,9 @@ LVGL owns widgets, layout, styles, and pixels. GLFW owns the native window and r
 
 ```text
 git clone --recurse-submodules https://github.com/YuriAlvesBordin/LVGL-Desktop-Simulator
-cd lvgl-raylib
-cmake --preset debug
-cmake --build --preset debug-build
-./build/debug/lvgl-glfw-app
+cd LVGL-Desktop-Simulator/scripts
+./
+
 ```
 
 Start automatic rebuild and relaunch while editing the screen:
@@ -81,10 +68,6 @@ The canvas, window, presentation, and branding are configured with `#define` val
 
 For a circular screen, use a square LVGL canvas and preserve-aspect-ratio mode. See [CMake and presets](docs/reference/cmake.md) for the configuration map.
 
-## Why it exists
-
-Embedded UI work is faster when screen layout, visual states, keyboard interaction, and pointer behavior can be checked before a board is available. This project keeps application code close to normal LVGL code while replacing the physical display with a reproducible desktop preview.
-
 ## Documentation
 
 | Guide | Use it when you need to… |
@@ -97,16 +80,3 @@ Embedded UI work is faster when screen layout, visual states, keyboard interacti
 | [Architecture](docs/reference/architecture.md) | Understand application, LVGL, GLFW, and OpenGL boundaries |
 | [Releases](docs/guide/releases.md) | Build a standalone Linux or Windows release |
 | [Validation report](VALIDATION.md) | Review the current validation coverage |
-
-## Built with
-
-| Component | Role |
-|---|---|
-| [LVGL](https://lvgl.io/) | Widgets, layout, input handling, and software rendering |
-| [GLFW](https://www.glfw.org/) | Native window, context, and desktop events |
-| [OpenGL](https://www.khronos.org/opengl/) | RGB565 texture presentation only |
-| [CMake](https://cmake.org/) | Configuration, build composition, and presets |
-
-## Scope
-
-The simulator is for fast desktop validation of LVGL screens. It does not emulate a specific MCU, display controller, board SDK, embedded memory limit, or LVGL XML workflow.

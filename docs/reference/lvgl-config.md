@@ -50,7 +50,7 @@ OpenGL presents the RGB565 framebuffer produced by LVGL. It is not a second widg
 | Widgets demo | `LV_USE_DEMO_WIDGETS` |
 | Fonts | `LV_FONT_MONTSERRAT_14`, `LV_FONT_MONTSERRAT_16`, `LV_FONT_MONTSERRAT_24` |
 
-The default `lv_demo_widgets()` content requires the widgets demo, FLEX, GRID, its control set, and the enabled fonts. The official examples and demos are kept in the LVGL submodule and are selected from `src/app/Application.c`.
+The default application shows a simple button. To run the LVGL widgets demo, edit `src/app/Application.c` to call `lv_demo_widgets()`, which requires the widgets demo, FLEX, GRID, its control set, and the enabled fonts. The official examples and demos are kept in the LVGL submodule and are selected from `src/app/Application.c`.
 
 ## Build content
 

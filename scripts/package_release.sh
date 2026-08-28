@@ -28,7 +28,14 @@ trap cleanup EXIT INT TERM
 
 command -v cmake >/dev/null 2>&1 || { echo "Error: cmake was not found in PATH." >&2; exit 127; }
 command -v tar >/dev/null 2>&1 || { echo "Error: tar was not found in PATH." >&2; exit 127; }
-command -v sha256sum >/dev/null 2>&1 || { echo "Error: sha256sum was not found in PATH." >&2; exit 127; }
+if command -v sha256sum >/dev/null 2>&1; then
+    SHA256_COMMAND=(sha256sum)
+elif command -v shasum >/dev/null 2>&1; then
+    SHA256_COMMAND=(shasum -a 256)
+else
+    echo "Error: sha256sum or shasum was not found in PATH." >&2
+    exit 127
+fi
 
 mkdir -p "${DIST_DIR}" "${PACKAGE_DIR}"
 
@@ -47,7 +54,7 @@ fi
 
 cp "${APP_BINARY}" "${PACKAGE_DIR}/lvgl-glfw-app"
 cp "${ROOT_DIR}/README.md" "${PACKAGE_DIR}/README.md"
-cp "${ROOT_DIR}/VALIDATION.md" "${PACKAGE_DIR}/VALIDATION.md"
+cp "${ROOT_DIR}/VALIDATION.md" "${PACKAGE_DIR}/VALIDATION.md" 2>/dev/null || true
 cp "${ROOT_DIR}/LICENSE" "${PACKAGE_DIR}/LICENSE" 2>/dev/null || true
 
 ICON_PATH="$(read_define "${DISPLAY_CONFIG}" LVGL_GLFW_ICON_PATH)"
@@ -83,6 +90,6 @@ fi
 
 rm -f "${ARCHIVE_PATH}"
 tar -C "${STAGING_DIR}" -czf "${ARCHIVE_PATH}" "${PACKAGE_NAME}"
-sha256sum "${ARCHIVE_PATH}" > "${ARCHIVE_PATH}.sha256"
+"${SHA256_COMMAND[@]}" "${ARCHIVE_PATH}" > "${ARCHIVE_PATH}.sha256"
 
 printf '%s\n' "[release] archive: ${ARCHIVE_PATH}" "[release] checksum: ${ARCHIVE_PATH}.sha256"

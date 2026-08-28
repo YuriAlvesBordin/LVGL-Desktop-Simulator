@@ -54,7 +54,7 @@ if not exist "%APP_BINARY%" (
 
 copy /y "%APP_BINARY%" "%PACKAGE_DIR%\lvgl-glfw-app.exe" >nul
 copy /y "%ROOT_DIR%\README.md" "%PACKAGE_DIR%\README.md" >nul
-copy /y "%ROOT_DIR%\VALIDATION.md" "%PACKAGE_DIR%\VALIDATION.md" >nul
+if exist "%ROOT_DIR%\VALIDATION.md" copy /y "%ROOT_DIR%\VALIDATION.md" "%PACKAGE_DIR%\VALIDATION.md" >nul
 if exist "%ROOT_DIR%\LICENSE" copy /y "%ROOT_DIR%\LICENSE" "%PACKAGE_DIR%\LICENSE" >nul
 
 set "ICON_PATH="

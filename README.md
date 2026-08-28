@@ -37,8 +37,7 @@ LVGL owns widgets, layout, styles, and pixels. GLFW owns the native window and r
 ```text
 git clone --recurse-submodules https://github.com/YuriAlvesBordin/LVGL-Desktop-Simulator
 cd LVGL-Desktop-Simulator/scripts
-./
-
+./live_preview .sh or .bat
 ```
 
 Start automatic rebuild and relaunch while editing the screen:

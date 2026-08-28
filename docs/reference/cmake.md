@@ -40,7 +40,7 @@ Generated files in a build directory, especially `CMakeCache.txt`, are derived s
 |---|---|
 | `LVGL_GLFW_LVGL_WIDTH` and `LVGL_GLFW_LVGL_HEIGHT` | Logical LVGL canvas and framebuffer dimensions |
 | `LVGL_GLFW_WINDOW_WIDTH` and `LVGL_GLFW_WINDOW_HEIGHT` | Initial native window dimensions |
-| `LVGL_GLFW_PRESENTATION_MODE` | `0` for stretch or `1` for preserve-aspect-ratio |
+| `LVGL_GLFW_PRESENTATION_MODE` | `0` for stretch, `1` for preserve-aspect-ratio, or `2` for fixed size (1:1 pixels) |
 | `LVGL_GLFW_SCREEN_SHAPE` | `0` for rectangle, `1` for rounded, or `2` for circle |
 | `LVGL_GLFW_CORNER_RADIUS` | Rounded-mask radius in logical pixels |
 | `LVGL_GLFW_WINDOW_TITLE` | Base native title; preview appends ` - Preview` |

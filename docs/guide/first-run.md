@@ -1,6 +1,6 @@
 # First run
 
-This is the shortest path from a checkout to the default LVGL widgets demo.
+This is the shortest path from a checkout to a running simulator.
 
 ## Recommended workflow
 
@@ -14,9 +14,9 @@ The application entry point is `src/app/Application.c`. The default call shows a
 
 ## Display configuration
 
-The LVGL canvas and the native window are independent. Edit `config/display_config.h` when the default `960×540` setup is not appropriate. The same header contains the presentation mode, screen shape, corner radius, title, icon path, VSync interval, and maximum FPS.
+The LVGL canvas and the native window are independent. Edit `config/display_config.h` when the default `800×480` setup is not appropriate. The same header contains the presentation mode, screen shape, corner radius, title, icon path, VSync interval, and maximum FPS.
 
-Set `LVGL_GLFW_SCREEN_SHAPE` to `2` with equal LVGL width and height for a circular display, and set `LVGL_GLFW_PRESENTATION_MODE` to `1` when preserving the canvas aspect ratio. Reconfigure with the Debug preset after changing the header, then build again. The complete configuration map is in [CMake and presets](../reference/cmake.md).
+Set `LVGL_GLFW_SCREEN_SHAPE` to `2` with equal LVGL width and height for a circular display, and set `LVGL_GLFW_PRESENTATION_MODE` to `1` when preserving the canvas aspect ratio or to `2` when the canvas should keep its true resolution at one canvas pixel per framebuffer pixel. Reconfigure with the Debug preset after changing the header, then build again. The complete configuration map is in [CMake and presets](../reference/cmake.md).
 
 ## Select another LVGL screen
 

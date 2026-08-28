@@ -4,7 +4,8 @@
 #include <display_config.h>
 
 #if LVGL_GLFW_PRESENTATION_MODE != LVGL_GLFW_PRESENTATION_MODE_STRETCH && \
-    LVGL_GLFW_PRESENTATION_MODE != LVGL_GLFW_PRESENTATION_MODE_PRESERVE_ASPECT_RATIO
+    LVGL_GLFW_PRESENTATION_MODE != LVGL_GLFW_PRESENTATION_MODE_PRESERVE_ASPECT_RATIO && \
+    LVGL_GLFW_PRESENTATION_MODE != LVGL_GLFW_PRESENTATION_MODE_FIXED_SIZE
 #error "LVGL_GLFW_PRESENTATION_MODE must select a supported presentation mode"
 #endif
 
@@ -26,7 +27,8 @@ namespace lvgl_integration {
 
 enum class PresentationMode {
     Stretch,
-    PreserveAspectRatio
+    PreserveAspectRatio,
+    FixedSize
 };
 
 enum class ScreenShape {
@@ -61,6 +63,8 @@ inline constexpr ScreenShape screen_shape =
 inline constexpr PresentationMode presentation_mode =
 #if LVGL_GLFW_PRESENTATION_MODE == LVGL_GLFW_PRESENTATION_MODE_PRESERVE_ASPECT_RATIO
     PresentationMode::PreserveAspectRatio;
+#elif LVGL_GLFW_PRESENTATION_MODE == LVGL_GLFW_PRESENTATION_MODE_FIXED_SIZE
+    PresentationMode::FixedSize;
 #else
     PresentationMode::Stretch;
 #endif

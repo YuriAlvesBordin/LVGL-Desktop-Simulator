@@ -95,8 +95,8 @@ if(NOT "${LVGL_GLFW_CORNER_RADIUS}" MATCHES "^[0-9]+$")
     message(FATAL_ERROR "LVGL_GLFW_CORNER_RADIUS must be a non-negative integer")
 endif()
 
-if(NOT "${LVGL_GLFW_PRESENTATION_MODE}" MATCHES "^[01]$")
-    message(FATAL_ERROR "LVGL_GLFW_PRESENTATION_MODE must be 0 or 1")
+if(NOT "${LVGL_GLFW_PRESENTATION_MODE}" MATCHES "^[012]$")
+    message(FATAL_ERROR "LVGL_GLFW_PRESENTATION_MODE must be 0, 1, or 2")
 endif()
 
 if(NOT "${LVGL_GLFW_SCREEN_SHAPE}" MATCHES "^[012]$")
@@ -159,8 +159,10 @@ endforeach()
 
 if("${LVGL_GLFW_PRESENTATION_MODE}" STREQUAL "0")
     set(LVGL_GLFW_PRESENTATION_MODE_NAME "stretch")
-else()
+elseif("${LVGL_GLFW_PRESENTATION_MODE}" STREQUAL "1")
     set(LVGL_GLFW_PRESENTATION_MODE_NAME "preserve-aspect-ratio")
+else()
+    set(LVGL_GLFW_PRESENTATION_MODE_NAME "fixed-size")
 endif()
 
 if("${LVGL_GLFW_SCREEN_SHAPE}" STREQUAL "0")

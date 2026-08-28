@@ -74,7 +74,7 @@ sequenceDiagram
     F-->>W: Swap the desktop window buffers
 ```
 
-The integration never interprets individual widgets. It receives the completed LVGL framebuffer and presents it as a texture. This preserves the distinction between UI rendering and desktop presentation. The texture keeps the configured logical LVGL resolution while the presentation viewport follows the current framebuffer size. Stretch mode fills that viewport; aspect-ratio mode uses a centered fitted viewport with letterboxing when necessary. The presentation fragment shader can apply a rectangle, rounded-corner, or circle mask after sampling the LVGL texture; it does not create or lay out any UI content.
+The integration never interprets individual widgets. It receives the completed LVGL framebuffer and presents it as a texture. This preserves the distinction between UI rendering and desktop presentation. The texture keeps the configured logical LVGL resolution while the presentation viewport follows the current framebuffer size. Stretch mode fills that viewport; aspect-ratio mode uses a centered fitted viewport with letterboxing when necessary. Fixed-size mode keeps one canvas pixel per framebuffer pixel: the canvas is centered without scaling and clipped when the window is smaller than the canvas, so the screen resolution always stays true to the configured LVGL resolution. The presentation fragment shader can apply a rectangle, rounded-corner, or circle mask after sampling the LVGL texture; it does not create or lay out any UI content.
 
 ## Input pipeline
 

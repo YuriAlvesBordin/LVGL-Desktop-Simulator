@@ -37,7 +37,7 @@ LVGL owns widgets, layout, styles, and pixels. GLFW owns the native window and r
 ```text
 git clone --recurse-submodules https://github.com/YuriAlvesBordin/LVGL-Desktop-Simulator
 cd LVGL-Desktop-Simulator/scripts
-./live_preview .sh or .bat
+./live_preview.sh
 ```
 
 Start automatic rebuild and relaunch while editing the screen:
@@ -58,7 +58,7 @@ The canvas, window, presentation, and branding are configured with `#define` val
 |---|---|
 | `LVGL_GLFW_LVGL_WIDTH` / `LVGL_GLFW_LVGL_HEIGHT` | Logical LVGL resolution |
 | `LVGL_GLFW_WINDOW_WIDTH` / `LVGL_GLFW_WINDOW_HEIGHT` | Native desktop window size |
-| `LVGL_GLFW_PRESENTATION_MODE` | `0` for stretch or `1` for preserve-aspect-ratio |
+| `LVGL_GLFW_PRESENTATION_MODE` | `0` for stretch, `1` for preserve-aspect-ratio, or `2` for fixed size (1:1 pixels) |
 | `LVGL_GLFW_SCREEN_SHAPE` | `0` for rectangle, `1` for rounded, or `2` for circle |
 | `LVGL_GLFW_CORNER_RADIUS` | Rounded-corner radius |
 | `LVGL_GLFW_WINDOW_TITLE` | Native window title; preview adds ` - Preview` |
@@ -73,7 +73,6 @@ For a circular screen, use a square LVGL canvas and preserve-aspect-ratio mode. 
 |---|---|
 | [Installation](docs/guide/installation.md) | Install dependencies on Unix or Windows |
 | [First run](docs/guide/first-run.md) | Configure and launch the simulator |
-| [Selecting LVGL content](docs/guide/selecting-lvgl-content.md) | Switch between official examples and demos |
 | [Live preview](docs/development/live-preview.md) | Understand automatic rebuild and relaunch |
 | [CMake and presets](docs/reference/cmake.md) | Understand config headers, build targets, and presets |
 | [Architecture](docs/reference/architecture.md) | Understand application, LVGL, GLFW, and OpenGL boundaries |

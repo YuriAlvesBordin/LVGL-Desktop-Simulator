@@ -166,14 +166,13 @@ void LVGLInput::read_keyboard(lv_indev_data_t* data) noexcept
         return;
     }
 
-    const auto key = window_->take_key_pressed();
     const auto character = window_->take_char_pressed();
     std::uint32_t next_key = 0U;
 
     if (character.has_value() && *character >= 0x20U) {
         next_key = *character;
     }
-    else if (key.has_value()) {
+    else if (const auto key = window_->take_key_pressed(); key.has_value()) {
         next_key = map_key(*key);
     }
 

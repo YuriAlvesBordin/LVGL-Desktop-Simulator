@@ -1,19 +1,19 @@
 # Releases
 
-The release scripts create a platform-specific archive containing the compiled simulator and its runtime metadata. LVGL and GLFW are linked into the executable.
+The release script creates a platform-specific archive containing the compiled simulator and its runtime metadata. LVGL and GLFW are linked into the executable.
 
 ## Build
 
-Edit the branding and display values in `config/display_config.h`, then run the platform script from the project root.
+Edit the branding and display values in `config/display_config.h`, then run the packaging script from the project root.
 
 ```text
-./scripts/package_release.sh
+python3 scripts/package_release.py
 ```
 
-On Windows, run the batch equivalent:
+On Windows:
 
 ```text
-scripts\package_release.bat
+python scripts\package_release.py
 ```
 
 Unix produces `.tar.gz`; Windows produces `.zip`. Each package has an adjacent SHA-256 file.

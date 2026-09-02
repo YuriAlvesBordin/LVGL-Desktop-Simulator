@@ -11,6 +11,7 @@ flowchart LR
     F --> S[Selecting LVGL content]
     S --> R[Release packaging]
     S --> L[Live preview]
+    S --> CF[Custom fonts]
     L --> A[Architecture]
     A --> C[CMake and presets]
     C --> V[LVGL configuration]
@@ -23,6 +24,7 @@ flowchart LR
 | Guide | [Git submodules](guide/dependencies.md) | How are LVGL and GLFW obtained and pinned? |
 | Guide | [First run](guide/first-run.md) | How do I build and launch the simulator? |
 | Guide | [Releases](guide/releases.md) | How do I build and distribute the standalone executable? |
+| Guide | [Custom fonts](guide/custom-fonts.md) | How do I use my own TTF/OTF fonts? |
 | Development | [Live preview](development/live-preview.md) | How do I see changes automatically? |
 | Development | [Contributing and extending](development/contributing.md) | Where should a change live? |
 | Reference | [Architecture](reference/architecture.md) | How does the framebuffer and input bridge work? |

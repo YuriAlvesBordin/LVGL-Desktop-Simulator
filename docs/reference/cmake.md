@@ -90,9 +90,14 @@ The recommended workflow is to edit `config/*.h` or `src/app/Application.c`, the
 | `lvgl_glfw_integration` | GLFW, OpenGL, LVGL display, input, tick, and GLAD bridge |
 | `live-preview` | Visible cross-platform rebuild and relaunch supervisor |
 | `package-release` | Cross-platform standalone release packager |
+| `fonts` | Convert fonts from `assets/fonts/` into LVGL C sources |
 | `clean` | Generator-provided removal of compiled output while retaining the build tree |
 
 Use the generator `clean` target when the configured tree should remain available. Use `python3 scripts/clear_build.py` (or `python scripts\clear_build.py` on Windows) when the complete build directory must be removed.
+
+## Custom fonts pipeline
+
+`src/app/CMakeLists.txt` includes `cmake/Fonts.cmake`, which converts every font in `assets/fonts/` into C sources under `src/app/fonts/` and compiles them into `lvgl_glfw_app_ui`. The conversion runs through `add_custom_command`, so an added or changed `.ttf`, `.otf`, `.woff`, or `fonts.toml` regenerates on the next build, and the `fonts` target forces a conversion pass on demand. See [Custom fonts](../guide/custom-fonts.md).
 
 ## Source of truth
 

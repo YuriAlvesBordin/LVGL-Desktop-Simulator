@@ -77,6 +77,7 @@ For a circular screen, use a square LVGL canvas and preserve-aspect-ratio mode. 
 | [CMake and presets](docs/reference/cmake.md) | Understand config headers, build targets, and presets |
 | [Architecture](docs/reference/architecture.md) | Understand application, LVGL, GLFW, and OpenGL boundaries |
 | [Releases](docs/guide/releases.md) | Build a standalone Linux or Windows release |
+| [Custom fonts](docs/guide/custom-fonts.md) | Convert your own TTF/OTF fonts into LVGL C sources |
 
 ---
 

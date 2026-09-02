@@ -65,7 +65,7 @@ The logical LVGL dimensions remain independent from the native window dimensions
 | `LVGL_GLFW_BUILD_SHARED_LIBS` and `LVGL_GLFW_GLFW_LIBRARY_TYPE` | Static or shared dependency policy |
 | `LVGL_GLFW_BUILD_GLFW_*` | GLFW documentation, test, example, install, X11, and Wayland build policy |
 | `LVGL_GLFW_USE_THORVG_INTERNAL` | Optional internal ThorVG build policy |
-| `LVGL_GLFW_PREVIEW_INTERVAL_SECONDS` | Polling interval used by the Unix and Windows live-preview supervisors |
+| `LVGL_GLFW_PREVIEW_INTERVAL_SECONDS` | Polling interval used by the live-preview supervisor |
 
 The default project keeps LVGL and GLFW static so the application can be packaged without separate project-library files. The host still supplies the graphics driver, native window system, and operating-system runtime.
 
@@ -88,11 +88,11 @@ The recommended workflow is to edit `config/*.h` or `src/app/Application.c`, the
 | `lvgl-glfw-app` | Desktop executable and C++ bootstrap |
 | `lvgl_glfw_app_ui` | C11 application layer |
 | `lvgl_glfw_integration` | GLFW, OpenGL, LVGL display, input, tick, and GLAD bridge |
-| `live-preview` | Visible platform-native rebuild and relaunch supervisor |
-| `package-release` | Platform-native standalone packager |
+| `live-preview` | Visible cross-platform rebuild and relaunch supervisor |
+| `package-release` | Cross-platform standalone release packager |
 | `clean` | Generator-provided removal of compiled output while retaining the build tree |
 
-Use the generator `clean` target when the configured tree should remain available. Use `scripts/clear_build.sh` or `scripts\\clear_build.bat` when the complete build directory must be removed.
+Use the generator `clean` target when the configured tree should remain available. Use `python3 scripts/clear_build.py` (or `python scripts\clear_build.py` on Windows) when the complete build directory must be removed.
 
 ## Source of truth
 

@@ -69,7 +69,7 @@ To run `lv_demo_widgets()`, edit `src/app/Application.c` to call `lv_demo_widget
 
 ## Live preview does not rebuild
 
-Confirm that the edited file is under one of the watched paths. The supervisor watches `src/app/`, `src/integration/`, `config/`, the root CMake files, and the two component CMake files.
+Confirm that the edited file is under one of the watched paths. The supervisor watches `src/app/`, `src/integration/`, `config/`, the root CMake files, the two component CMake files, and the `scripts/*.py` helpers.
 
 The supervisor uses polling. The default interval is defined by `LVGL_GLFW_PREVIEW_INTERVAL_SECONDS` in `config/project_config.h`. If a build fails, the previous process is kept alive and the error remains in the terminal.
 

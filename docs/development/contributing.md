@@ -8,7 +8,8 @@ This repository is intentionally small at the application boundary and explicit 
 flowchart TD
     Q{What are you changing?}
     Q -->|Selected screen content| A[src/app/Application.c]
-    Q -->|LVGL feature or font| C[config/lv_conf.h]
+    Q -->|LVGL built-in font or feature| C[config/lv_conf.h]
+    Q -->|Your own TTF or OTF font| F[assets/fonts/ and scripts/convert_fonts.py]
     Q -->|Build target or dependency| B[CMakeLists.txt]
     Q -->|Window, context, presentation| W[src/integration/platform/]
     Q -->|Display buffers or flush| D[src/integration/lvgl/LVGLDisplay.cpp]
@@ -21,6 +22,7 @@ flowchart TD
 |---|---|---|
 | Select an official LVGL example or demo | `src/app/Application.c` | Integration sources |
 | Enable a font, widget, layout, or demo feature | `config/lv_conf.h` | Vendored LVGL source |
+| Use your own TTF/OTF font | `assets/fonts/` (converted by the build) | Vendored LVGL source, Node.js converters |
 | Change compiler standards or targets | Relevant `CMakeLists.txt` | Ad hoc shell-only build rules |
 | Change the presentation pipeline | `src/integration/platform/` and `src/integration/lvgl/` | Application code |
 | Explain the workflow | `docs/` and `README.md` | Large inline code comments |

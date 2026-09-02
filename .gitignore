@@ -13,3 +13,10 @@ core.*
 compile_commands.json
 dist/
 .zcode/
+
+__pycache__/
+*.pyc
+
+# Ignore any folder inside src/app
+src/app/*/
+src/app/**/

@@ -230,47 +230,28 @@ else()
     target_compile_options(lvgl_glfw_app PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-if(UNIX)
-    find_program(BASH_EXECUTABLE bash)
-    if(BASH_EXECUTABLE)
-        add_custom_target(live-preview
-            COMMAND ${CMAKE_COMMAND} -E env
-                    BUILD_DIR=${CMAKE_BINARY_DIR}
-                    CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-                    ${BASH_EXECUTABLE}
-                    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/live_preview.sh"
-            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-            USES_TERMINAL
-            COMMENT "Watching LVGL application sources and restarting the desktop preview"
-        )
-        add_custom_target(package-release
-            COMMAND ${BASH_EXECUTABLE}
-                    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/package_release.sh"
-            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-            USES_TERMINAL
-            COMMENT "Building and packaging the standalone LVGL desktop simulator"
-        )
-    endif()
-elseif(WIN32)
+find_package(Python3 COMPONENTS Interpreter)
+if(Python3_Interpreter_FOUND)
     add_custom_target(live-preview
         COMMAND ${CMAKE_COMMAND} -E env
                 "BUILD_DIR=${CMAKE_BINARY_DIR}"
                 "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-                cmd /c call
-                "${CMAKE_CURRENT_SOURCE_DIR}/scripts/live_preview.bat"
+                ${Python3_EXECUTABLE}
+                "${CMAKE_CURRENT_SOURCE_DIR}/scripts/live_preview.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         USES_TERMINAL
         COMMENT "Watching LVGL application sources and restarting the desktop preview"
     )
     add_custom_target(package-release
         COMMAND ${CMAKE_COMMAND} -E env
-                "BUILD_DIR=${CMAKE_BINARY_DIR}"
-                cmd /c call
-                "${CMAKE_CURRENT_SOURCE_DIR}/scripts/package_release.bat"
+                ${Python3_EXECUTABLE}
+                "${CMAKE_CURRENT_SOURCE_DIR}/scripts/package_release.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         USES_TERMINAL
         COMMENT "Building and packaging the standalone LVGL desktop simulator"
     )
+else()
+    message(STATUS "Python 3 not found; live-preview and package-release targets are disabled.")
 endif()
 
 set_target_properties(lvgl_glfw_app PROPERTIES

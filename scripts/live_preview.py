@@ -77,8 +77,9 @@ def watch_signature():
             stat = path.stat()
         except OSError:
             continue
-        relative = path.relative_to(PROJECT_ROOT).as_posix()
-        records.append(f"{relative}|{stat.st_size}|{stat.st_mtime_ns}")
+        # Only string/stat operations here: Path-vs-Path comparison in the
+        # hot loop is fragile (pathlib internals blew up once mid-run).
+        records.append(f"{path}|{stat.st_size}|{stat.st_mtime_ns}")
     records.sort()
     return sha256("\n".join(records).encode("utf-8")).hexdigest()
 
@@ -180,7 +181,13 @@ def main():
     last_signature = ""
     try:
         while True:
-            current_signature = watch_signature()
+            try:
+                current_signature = watch_signature()
+            except Exception:
+                # A transient filesystem error must never kill the supervisor.
+                error(f"[{TAG}] signature scan failed; retrying")
+                time.sleep(interval)
+                continue
             if current_signature != last_signature:
                 info(TAG, "change detected")
                 if build_project(build_dir, build_type):
@@ -198,12 +205,20 @@ def main():
                     )
                 last_signature = current_signature
             if process is not None and process.poll() is not None:
+                code = process.returncode
                 process.wait()
                 process = None
+                if code != 0:
+                    error(f"[{TAG}] application exited with code {code}")
+                else:
+                    info(TAG, "application exited")
             time.sleep(interval)
     finally:
         stop_app(process)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(130)

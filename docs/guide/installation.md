@@ -4,7 +4,7 @@ This project is designed to be easy to clone, configure, build, and run on a des
 
 ## Supported environment model
 
-The simulator needs a C compiler, a C++20 compiler, CMake 3.25 or newer, Ninja, an OpenGL development package, and the native window-system development files used by GLFW.
+The simulator needs a C compiler, a C++20 compiler, CMake 3.25 or newer, Ninja, an OpenGL development package, and the native window-system development files used by GLFW. The helper scripts additionally need Python 3.9 or newer available as `python3` (Unix) or `python` (Windows).
 
 | Environment | Window system | Additional notes |
 |---|---|---|
@@ -19,7 +19,7 @@ The simulator needs a C compiler, a C++20 compiler, CMake 3.25 or newer, Ninja, 
 Install the compiler toolchain, build tools, OpenGL development files, and the X11 and Wayland dependencies used by the vendored GLFW build.
 
 ```text
-sudo pacman -Syu --needed base-devel cmake ninja mesa libglvnd \
+sudo pacman -Syu --needed base-devel cmake ninja python mesa libglvnd \
   libx11 libxcursor libxinerama libxrandr libxi \
   wayland wayland-protocols libxkbcommon
 ```
@@ -38,7 +38,7 @@ The following package set covers the common Ubuntu and Debian development enviro
 
 ```text
 sudo apt update
-sudo apt install -y build-essential cmake ninja-build pkg-config \
+sudo apt install -y build-essential cmake ninja-build python3 pkg-config \
   libgl1-mesa-dev libegl1-mesa-dev \
   libx11-dev libxcursor-dev libxinerama-dev libxrandr-dev libxi-dev \
   libwayland-dev libxkbcommon-dev wayland-protocols
@@ -49,7 +49,7 @@ sudo apt install -y build-essential cmake ninja-build pkg-config \
 The following package set covers the common Fedora development environment.
 
 ```text
-sudo dnf install -y gcc gcc-c++ cmake ninja-build pkgconf-pkg-config \
+sudo dnf install -y gcc gcc-c++ cmake ninja-build python3 pkgconf-pkg-config \
   mesa-libGL-devel mesa-libEGL-devel \
   libX11-devel libXcursor-devel libXinerama-devel libXrandr-devel libXi-devel \
   wayland-devel libxkbcommon-devel wayland-protocols-devel
@@ -65,26 +65,29 @@ Homebrew provides the build tools used by the project.
 brew install cmake ninja
 ```
 
-A recent Xcode command-line toolchain is required. The project requests an OpenGL 3.3 core profile directly. Native OpenGL availability depends on the macOS version and hardware.
+A recent Xcode command-line toolchain is required; it also provides the `python3` interpreter used by the helper scripts. The project requests an OpenGL 3.3 core profile directly. Native OpenGL availability depends on the macOS version and hardware.
 
 ## Windows
 
-Install Visual Studio with C++ desktop development, CMake, PowerShell, and a generator supported by the local toolchain. The project requests an OpenGL 3.3 core profile directly. The native driver must expose that profile for the application to start.
+Install Visual Studio with C++ desktop development, CMake, Python 3.9 or newer, and a generator supported by the local toolchain. The project requests an OpenGL 3.3 core profile directly. The native driver must expose that profile for the application to start.
 
-The Windows workflows are provided by `scripts\live_preview.bat` and `scripts\package_release.bat`. They use `cmd.exe` and PowerShell, both of which are included in supported Windows installations. The supplied CMake presets use Ninja, so install Ninja when using `cmake --preset debug`; a manual CMake configure can instead use a Visual Studio generator, and the batch scripts select the appropriate configuration directory automatically.
+The workflow scripts are `scripts\live_preview.py` and `scripts\package_release.py`, run with `python` from any shell. The supplied CMake presets use Ninja, so install Ninja when using `cmake --preset debug`; a manual CMake configure can instead use a Visual Studio generator, and the Python scripts select the appropriate configuration directory automatically.
 
 ## Verify the toolchain
 
 The following commands provide a minimal toolchain check.
 
-On Windows, use the Visual Studio Developer Command Prompt or make sure `cmake`, `powershell`, and the selected compiler are available on `PATH`.
+On Windows, use the Visual Studio Developer Command Prompt or make sure `cmake`, `python`, and the selected compiler are available on `PATH`.
 
 ```text
 cmake --version
 ninja --version
 cc --version
 c++ --version
+python3 --version
 ```
+
+On Windows, check `python --version` instead of `python3 --version`.
 
 For a normal graphical session, confirm that the desktop OpenGL stack can expose a 3.3 or newer context. On Wayland, prefer an EGL-oriented diagnostic such as `eglinfo`; `glxinfo` primarily validates the X11 or XWayland GLX path.
 

@@ -36,8 +36,8 @@ LVGL owns widgets, layout, styles, and pixels. GLFW owns the native window and r
 
 ```text
 git clone --recurse-submodules https://github.com/YuriAlvesBordin/LVGL-Desktop-Simulator
-cd LVGL-Desktop-Simulator/scripts
-./live_preview.sh
+cd LVGL-Desktop-Simulator
+python3 scripts/live_preview.py
 ```
 
 Start automatic rebuild and relaunch while editing the screen:
@@ -46,7 +46,7 @@ Start automatic rebuild and relaunch while editing the screen:
 cmake --build build/debug --target live-preview
 ```
 
-On Windows, use `scripts\live_preview.bat`. The complete installation path is documented in [Installation](docs/guide/installation.md).
+On Windows, run the same helper with `python scripts\live_preview.py`. The complete installation path is documented in [Installation](docs/guide/installation.md).
 
 ## Make it yours
 

@@ -73,6 +73,18 @@ Install Visual Studio with C++ desktop development, CMake, Python 3.9 or newer, 
 
 The workflow scripts are `scripts\live_preview.py` and `scripts\package_release.py`, run with `python` from any shell. The supplied CMake presets use Ninja, so install Ninja when using `cmake --preset debug`; a manual CMake configure can instead use a Visual Studio generator, and the Python scripts select the appropriate configuration directory automatically.
 
+## Python module for custom fonts
+
+Converting fonts from `assets/fonts/` needs the `freetype-py` module (see [Custom fonts](custom-fonts.md)). Distribution packages are preferred where they exist:
+
+```text
+sudo apt install python3-freetype      # Ubuntu or Debian
+sudo dnf install python3-freetype      # Fedora
+pip3 install freetype-py               # macOS, Windows, or any other environment
+```
+
+Interpreters managed under PEP 668 (Arch, Homebrew, recent distribution Pythons) reject unmanaged pip installs. In that case install the module in a virtual environment that is active while running CMake, or use `pip3 install --user --break-system-packages freetype-py` if you accept the trade-off. The build picks the first interpreter on the machine that can actually `import freetype`.
+
 ## Verify the toolchain
 
 The following commands provide a minimal toolchain check.
@@ -85,6 +97,7 @@ ninja --version
 cc --version
 c++ --version
 python3 --version
+python3 -c "import freetype; print(freetype.version())"
 ```
 
 On Windows, check `python --version` instead of `python3 --version`.

@@ -1,0 +1,33 @@
+# Configuration for scripts/convert_fonts.py.
+#
+# Every *.ttf / *.otf / *.woff file dropped next to this file is converted into
+# LVGL font C sources under src/app/fonts/ during the build.
+#
+# This file is optional: without it every font is converted with the defaults
+# below (16 px, 4 bpp, ASCII + Latin-1 accents).
+
+[defaults]
+# Default glyph size in px when a file does not define size/sizes.
+size = 16
+# Anti-aliasing depth: 1, 2, 4 or 8 bits per pixel. 4 matches the built-ins.
+bpp = 4
+# Unicode ranges/codepoints/characters to include, replacing the built-in
+# default of ["0x20-0x7F", "0xA0-0xFF"].
+# ranges = ["0x20-0x7F", "0xA0-0xFF"]
+
+# Per-font overrides. The key must be the file name exactly as it appears in
+# this folder.
+#
+#   size    -> one output size
+#   sizes   -> several output sizes from the same file (one C file each)
+#   bpp     -> 1, 2, 4 or 8
+#   ranges  -> unicode ranges ("0x20-0x7F"), single codepoints ("0x2022") or
+#              literal characters ("E") - REPLACES the default ranges
+#   symbols -> literal characters ADDED on top of the ranges
+
+# [files."Montserrat-Medium.ttf"]
+# sizes = [16, 24]
+
+# [files."MyIcons.ttf"]
+# size = 20
+# ranges = ["0xE000-0xE0FF"]

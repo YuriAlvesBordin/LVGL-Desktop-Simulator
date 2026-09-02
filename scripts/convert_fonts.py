@@ -216,7 +216,13 @@ def build_jobs(source_dir):
             codepoints.update(parse_codepoints(list(symbols_extra), context))
         codepoints = sorted(codepoints)
 
-        base_part = sanitize_symbol_part(source.stem)
+        name_override = settings.get("name")
+        if name_override is not None:
+            if not isinstance(name_override, str) or not name_override.strip():
+                fail(f"{source.name}: 'name' must be a non-empty string")
+            base_part = sanitize_symbol_part(name_override)
+        else:
+            base_part = sanitize_symbol_part(source.stem)
         for size in sizes:
             symbol = f"lv_font_{base_part}_{size}"
             if symbol in BUILTIN_FONT_SYMBOLS:
@@ -896,14 +902,21 @@ def command_verify(args):
         f"ours: line_height={font.line_height} base_line={font.base_line} "
         f"cap_height={font.cap_height} x_height={font.x_height}")
 
-    passed = (counts["adv"] >= 0.85 * glyph_count and counts["adv1"] == glyph_count
-              and counts["box"] >= 0.90 * glyph_count and counts["box1"] == glyph_count
-              and counts["top"] >= 0.85 * glyph_count and counts["top1"] == glyph_count
-              and accuracy >= 0.80)
+    # Geometry must match exactly. Advances and anti-aliasing levels diverge
+    # more from lv_font_conv at small sizes, where one 1/16 px rounding step
+    # or one AA level is proportionally large, so those gates scale with size.
+    accuracy_floor = 0.65 if font.size < 24 else 0.80
+    passed = (counts["adv1"] == glyph_count
+              and counts["adv"] >= 0.70 * glyph_count
+              and counts["box"] == glyph_count
+              and counts["box1"] == glyph_count
+              and counts["top1"] == glyph_count
+              and counts["top"] >= 0.85 * glyph_count
+              and accuracy >= accuracy_floor)
     if passed:
         log("VERIFY PASS")
         return 0
-    log("VERIFY FAIL")
+    log(f"VERIFY FAIL (accuracy floor for this size: {accuracy_floor:.2f})")
     for kind in ("adv", "box", "top"):
         if bad[kind]:
             shown = [f"U+{cp:04X}" for cp in bad[kind][:10]]

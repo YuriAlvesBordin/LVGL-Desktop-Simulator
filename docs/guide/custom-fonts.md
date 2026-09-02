@@ -72,6 +72,7 @@ ranges = ["0xE000-0xE0FF"]
 | `size` | defaults and files | One output size in px (4 to 128) |
 | `sizes` | files | Several output sizes from one file (one C source each); cannot be combined with `size` |
 | `bpp` | defaults and files | Anti-aliasing depth: `1`, `2`, `4` (matches the built-ins) or `8` |
+| `name` | defaults and files | Symbol base name: the font becomes `lv_font_<name>_<size>` instead of using the sanitized file name; must not shadow an LVGL built-in |
 | `ranges` | defaults and files | Unicode ranges (`"0x20-0x7F"`), single codepoints (`"0x2022"`) or literal characters (`"E"`); replaces the defaults |
 | `symbols` | defaults and files | Literal characters added on top of the ranges |
 
@@ -85,10 +86,10 @@ Each font is declared by the generated header `src/app/fonts/uiFontUser.h`, and 
 #include <fonts/uiFontUser.h>
 
 /* Direct use through the generated declaration */
-lv_obj_set_style_text_font(title, &lv_font_montserrat_medium_24, LV_PART_MAIN);
+lv_obj_set_style_text_font(title, &lv_font_montserrat_60, LV_PART_MAIN);
 
 /* Or look a font up by name at runtime */
-const lv_font_t * body = ui_font_user_find("montserrat_medium_16");
+const lv_font_t * body = ui_font_user_find("montserrat_50");
 if(body != NULL) {
     lv_obj_set_style_text_font(text, body, LV_PART_MAIN);
 }
@@ -97,7 +98,7 @@ if(body != NULL) {
 The simulator's UI app (for example `src/app/SmarthWatch/`) centralises fonts behind role macros such as `UI_FONT_CLOCK` in `uiFont.h`. To make a screen use a converted font, point the role at it:
 
 ```c
-#define UI_FONT_CLOCK  (&lv_font_montserrat_medium_48)
+#define UI_FONT_CLOCK  (&lv_font_montserrat_60)
 ```
 
 ## What gets generated

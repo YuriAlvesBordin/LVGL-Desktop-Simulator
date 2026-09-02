@@ -21,12 +21,18 @@ bpp = 4
 #   size    -> one output size
 #   sizes   -> several output sizes from the same file (one C file each)
 #   bpp     -> 1, 2, 4 or 8
+#   name    -> symbol base name; the generated font becomes
+#              lv_font_<name>_<size> (default: sanitized file name).
+#              Must not shadow an LVGL built-in such as lv_font_montserrat_48.
 #   ranges  -> unicode ranges ("0x20-0x7F"), single codepoints ("0x2022") or
 #              literal characters ("E") - REPLACES the default ranges
 #   symbols -> literal characters ADDED on top of the ranges
 
-# [files."Montserrat-Medium.ttf"]
-# sizes = [16, 24]
+# LVGL ships lv_font_montserrat_{8..48} (even sizes) as built-ins, so this
+# continues the same family and even-size pattern from 50 onwards.
+[files."Montserrat-Medium.ttf"]
+name = "montserrat"
+sizes = [50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100]
 
 # [files."MyIcons.ttf"]
 # size = 20

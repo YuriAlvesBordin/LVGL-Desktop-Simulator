@@ -25,6 +25,11 @@ target_link_libraries(lvgl_glfw_app_ui
 
 target_compile_features(lvgl_glfw_app_ui PUBLIC c_std_11)
 
+# Convert fonts dropped into assets/fonts/ and compile them into this target.
+# See docs/guide/custom-fonts.md.
+include("${CMAKE_SOURCE_DIR}/cmake/Fonts.cmake")
+lvgl_glfw_setup_fonts(lvgl_glfw_app_ui)
+
 if(MSVC)
     target_compile_options(lvgl_glfw_app_ui PRIVATE /W4)
 else()

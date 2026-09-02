@@ -8,7 +8,7 @@ Live preview rebuilds and relaunches the simulator after project-owned source ch
 cmake --build build/debug --target live-preview
 ```
 
-The target selects `scripts/live_preview.sh` on Unix and `scripts\live_preview.bat` on Windows. The supervisor keeps the previous process alive when a build fails and replaces it only after a successful build.
+The target runs `scripts/live_preview.py` with Python 3.9 or newer on every platform. The supervisor keeps the previous process alive when a build fails and replaces it only after a successful build.
 
 The preview title is the configured `LVGL_GLFW_WINDOW_TITLE` followed by ` - Preview`. The LVGL screen is recreated on each relaunch; the native window size and position are preserved when the platform permits it.
 
@@ -21,7 +21,7 @@ The preview title is the configured `LVGL_GLFW_WINDOW_TITLE` followed by ` - Pre
 | `config/` | LVGL compile-time configuration |
 | `cmake/` | Generated resources such as icons |
 | Root CMake files | Targets, presets, and build configuration |
-| `scripts/live_preview.bat` | Windows supervisor changes |
+| `scripts/*.py` | Supervisor script changes |
 
 ## Display options
 
